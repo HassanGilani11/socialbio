@@ -93,3 +93,5 @@ Distributed under the MIT License. See `LICENSE` for more information.
 **Syed Hassan**
 - GitHub: [@HassanGilani11](https://github.com/HassanGilani11)
 - Website: [MySocials Preview](https://mysocialz.vercel.app/syedhassan)
+
+<!-- Project Reset: 2026 -->
