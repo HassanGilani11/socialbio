@@ -14,22 +14,36 @@ const poppins = Poppins({
 });
 
 export async function generateMetadata() {
-  await connectToDatabase();
-  const config = await SiteConfig.findOne();
+  try {
+    await connectToDatabase();
+    const config = await SiteConfig.findOne();
 
-  const siteName = config?.siteName || "MySocials";
-  const description = config?.heroDescription || "One link to bring all your social profiles into one place.";
+    const siteName = config?.siteName || "MySocials";
+    const description = config?.heroDescription || "One link to bring all your social profiles into one place.";
 
-  return {
-    title: {
-      default: siteName,
-      template: `%s | ${siteName}`,
-    },
-    description: description,
-    icons: {
-      icon: '/favicon.svg',
-    },
-  };
+    return {
+      title: {
+        default: siteName,
+        template: `%s | ${siteName}`,
+      },
+      description: description,
+      icons: {
+        icon: '/favicon.svg',
+      },
+    };
+  } catch (error) {
+    console.error("Metadata fetch failed during build/render:", error.message);
+    return {
+      title: {
+        default: "MySocials",
+        template: "%s | MySocials",
+      },
+      description: "One link to bring all your social profiles into one place.",
+      icons: {
+        icon: '/favicon.svg',
+      },
+    };
+  }
 }
 
 export default function RootLayout({ children }) {
