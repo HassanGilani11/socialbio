@@ -11,8 +11,14 @@ import SiteConfig from "@/schema/site-config";
 
 export default async function Hero() {
   const user = await currentUser();
-  await connectToDatabase();
-  const config = await SiteConfig.findOne();
+  let config = null;
+
+  try {
+    await connectToDatabase();
+    config = await SiteConfig.findOne();
+  } catch (error) {
+    console.error("Hero: Failed to fetch site config:", error.message);
+  }
 
   const title = config?.heroTitle || (
     <>
@@ -26,6 +32,7 @@ export default async function Hero() {
   const description = config?.heroDescription || "Effortlessly simplify and amplify your digital presence with MySocials — the smart link that brings all your content, profiles, and opportunities together in one beautiful, shareable place.";
   const githubLink = config?.githubLink || "https://github.com/HassanGilani11/";
   const githubText = config?.githubText || "Contribute to this project on GitHub";
+
 
   return (
     <div className="py-14 px-6 md:px-20 lg:px-32 grid">

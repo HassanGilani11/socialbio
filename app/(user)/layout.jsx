@@ -4,9 +4,15 @@ import connectToDatabase from "@/lib/db";
 import SiteConfig from "@/schema/site-config";
 
 export default async function Layout({ children }) {
-    await connectToDatabase();
-    const config = await SiteConfig.findOne();
-    const siteName = config?.siteName || "MySocials";
+    let siteName = "MySocials";
+    try {
+        await connectToDatabase();
+        const config = await SiteConfig.findOne();
+        siteName = config?.siteName || "MySocials";
+    } catch (error) {
+        console.error("UserLayout: Failed to fetch site config:", error.message);
+    }
+
 
     return (
         <main>

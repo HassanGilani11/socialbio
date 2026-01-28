@@ -9,11 +9,17 @@ import SiteConfig from "@/schema/site-config";
 export const dynamic = 'force-dynamic';
 
 export default async function Home() {
-  await connectToDatabase();
-  const config = await SiteConfig.findOne();
-  const siteName = config?.siteName || "MySocials";
+  let siteName = "MySocials";
+  try {
+    await connectToDatabase();
+    const config = await SiteConfig.findOne();
+    siteName = config?.siteName || "MySocials";
+  } catch (error) {
+    console.error("Home: Failed to fetch site config:", error.message);
+  }
 
   return (
+
     <main>
       <Header siteName={siteName} />
       <Hero />
